@@ -40,6 +40,7 @@ async function findThumbnail(ctx: Context, id: string) {
 }
 
 const indexBody = await Deno.readTextFile("./index.html");
+const errorBody = await Deno.readTextFile("./bad_request.html");
 const faviconFile = await Deno.readFile("./favicon.png");
 
 export const router = new Router()
@@ -54,7 +55,7 @@ export const router = new Router()
   .get("/watch", async (ctx) => {
     const id = ctx.request.url.searchParams.get("v");
     if (id === null) {
-      ctx.response.body = "<h1>Incorrect video ID URL</h1>";
+      ctx.response.body = errorBody;
       ctx.response.type = "text/html";
       ctx.response.status = Status.BadRequest;
       return;
